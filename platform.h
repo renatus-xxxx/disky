@@ -16,6 +16,8 @@ float platform_elapsed(clock_t start, clock_t end) {
   return ((end - start) & 0xFFFF) / (float)CLOCKS_PER_SEC;
 }
 #else
+#include <time.h>
+
 clock_t platform_clock(void) {
   return clock();
 }
