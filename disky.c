@@ -74,11 +74,11 @@ void run_benchmark(const char* label, void (*func)(void), int size_bytes) {
   clock_t t2 = platform_clock();
   double sec = platform_elapsed(t1, t2);
   double rate = size_bytes / 1024.0 / sec;
-  printf("%-10s: %6.2f KB/s (%4.2f sec)\n", label, rate, sec);
+  printf("%-10s: %6.2f KB/s (%4.3f sec)\n", label, rate, sec);
 }
 
 int main() {
-  printf("Disky - FDD Benchmark\n");
+  printf("Disky - Disk Benchmark\n");
   printf("Target file: %s\n\n", FILE_NAME);
 
   run_benchmark("Seq Write", write_seq, TOTAL_SIZE);
