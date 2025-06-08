@@ -69,9 +69,9 @@ void read_rand(void) {
 }
 
 void run_benchmark(const char* label, void (*func)(void), unsigned int size_bytes) {
-  platform_clock_t t1 = platform_clock();
+  clock_t t1 = platform_clock();
   func();
-  platform_clock_t t2 = platform_clock();
+  clock_t t2 = platform_clock();
   float sec = platform_elapsed(t1, t2);
   float rate = (float)size_bytes / 1024.0f / sec;
   printf("%-10s: %6.2f KB/s (%4.3f sec)\n", label, rate, sec);
