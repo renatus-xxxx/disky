@@ -7,9 +7,9 @@
 #include <string.h>
 #include "platform.h"
 
-#define BLOCK_SIZE 512
+#define BLOCK_SIZE 256
 #define FILE_NAME "BENCH.DAT"
-#define TOTAL_SIZE (64 * 1024)
+#define TOTAL_SIZE (32 * 1024)
 #define NUM_BLOCKS (TOTAL_SIZE / BLOCK_SIZE)
 #define RAND_COUNT 128
 
@@ -68,12 +68,12 @@ void read_rand(void) {
   fclose(fp);
 }
 
-void run_benchmark(const char* label, void (*func)(void), int size_bytes) {
-  clock_t t1 = platform_clock();
+void run_benchmark(const char* label, void (*func)(void), unsigned int size_bytes) {
+  platform_clock_t t1 = platform_clock();
   func();
-  clock_t t2 = platform_clock();
-  double sec = platform_elapsed(t1, t2);
-  double rate = size_bytes / 1024.0 / sec;
+  platform_clock_t t2 = platform_clock();
+  float sec = platform_elapsed(t1, t2);
+  float rate = (float)size_bytes / 1024.0f / sec;
   printf("%-10s: %6.2f KB/s (%4.3f sec)\n", label, rate, sec);
 }
 
