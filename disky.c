@@ -77,7 +77,7 @@ void run_benchmark(const char* label, void (*func)(void), unsigned int size_byte
   printf("%-10s: %6.2f KB/s (%4.3f sec)\n", label, rate, sec);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
   printf("Disky - Disk Benchmark\n");
   printf("Target file: %s\n\n", FILE_NAME);
 
