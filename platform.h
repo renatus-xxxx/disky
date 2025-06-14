@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#define FIXED_ONE (1024) // 1.0 sec = 1024
+typedef uint16_t fixed_t;
+
 #ifdef MSX
 #define CLOCKS_PER_SEC 60
 #define JIFFY          0xfc9e
@@ -12,8 +15,8 @@ clock_t platform_clock(void) {
   return (clock_t)(ptr[0] | (ptr[1] << 8));
 }
 
-float platform_elapsed(clock_t start, clock_t end) {
-  return ((end - start) & 0xFFFF) / (float)CLOCKS_PER_SEC;
+fixed_t platform_elapsed(clock_t start, clock_t end) {
+  return (fixed_t)(((uint32_t)((end - start) & 0xFFFF) * FIXED_ONE) / CLOCKS_PER_SEC);
 }
 #else
 #include <time.h>
@@ -22,9 +25,9 @@ clock_t platform_clock(void) {
   return clock();
 }
 
-float platform_elapsed(clock_t start, clock_t end) {
+fixed_t platform_elapsed(clock_t start, clock_t end) {
   float sec = (float)(end - start) / CLOCKS_PER_SEC;
-  return (sec <= 0.0f) ? (float)1e-6 : sec;
+  return (fixed_t)(sec * (float)FIXED_ONE);
 }
 #endif
 

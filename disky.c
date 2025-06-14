@@ -73,8 +73,14 @@ void run_benchmark(const char* label, void (*func)(void), unsigned int size_byte
   func();
   clock_t t2 = platform_clock();
   float sec = platform_elapsed(t1, t2);
-  float rate = (float)size_bytes / 1024.0f / sec;
-  printf("%-10s: %6.2f KB/s (%4.3f sec)\n", label, rate, sec);
+  fixed_t sec = platform_elapsed(t1, t2);
+  if (sec == 0) sec = 1;
+  uint32_t rate_fixed = ((uint32_t)size_bytes * FIXED_ONE) / sec;
+  uint16_t rate_int   = rate_fixed / 1024;
+  uint16_t rate_frac  = ((rate_fixed % 1024) * 1000) / 1024;
+  uint16_t sec_int = sec / FIXED_ONE;
+  uint16_t sec_frac = ((sec % FIXED_ONE) * 1000) / FIXED_ONE;
+  printf("%-10s: %3u.%03u KB/s (%u.%03u sec)\n", label, rate_int, rate_frac, sec_int, sec_frac);
 }
 
 int main(int argc, char* argv[]) {
