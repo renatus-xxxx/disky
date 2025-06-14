@@ -72,7 +72,6 @@ void run_benchmark(const char* label, void (*func)(void), unsigned int size_byte
   clock_t t1 = platform_clock();
   func();
   clock_t t2 = platform_clock();
-  float sec = platform_elapsed(t1, t2);
   fixed_t sec = platform_elapsed(t1, t2);
   if (sec == 0) sec = 1;
   uint32_t rate_fixed = ((uint32_t)size_bytes * FIXED_ONE) / sec;
