@@ -75,10 +75,10 @@ void run_benchmark(const char* label, void (*func)(void), unsigned int size_byte
   fixed_t sec = platform_elapsed(t1, t2);
   if (sec == 0) sec = 1;
   uint32_t rate_fixed = ((uint32_t)size_bytes * FIXED_ONE) / sec;
-  uint16_t rate_int   = rate_fixed / 1024;
-  uint16_t rate_frac = ((rate_fixed % 1024) * 100) / 1024; // %02u
-  uint16_t sec_int = sec / FIXED_ONE;
-  uint16_t sec_frac = ((sec % FIXED_ONE) * 1000) / FIXED_ONE;
+  uint16_t rate_int   = rate_fixed / FIXED_ONE;
+  uint16_t rate_frac  = ((rate_fixed - rate_int * FIXED_ONE) * 100) / FIXED_ONE; // %02u -> x100
+  uint16_t sec_int    = sec / FIXED_ONE;
+  uint16_t sec_frac   = ((sec - sec_int * FIXED_ONE) * 1000) / FIXED_ONE;        // %03u ->x1000
   printf("%-10s: %u.%02u KB/s (%u.%03u sec)\n", label, rate_int, rate_frac, sec_int, sec_frac);
 }
 
